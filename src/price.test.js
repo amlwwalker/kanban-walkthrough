@@ -18,3 +18,15 @@ test("a subtotal below 5000 prices with no discount", () => {
   expect(result.discountRate).toBe(0);
   expect(result.total).toBe(1200);
 });
+
+test("a subtotal of 5001 gets 5% off the whole subtotal", () => {
+  const result = priceCart([{ price: 5001, qty: 1 }]);
+  expect(result.discountRate).toBe(0.05);
+  expect(result.total).toBe(4751);
+});
+
+test("a subtotal of exactly 10000 gets 5%, not 10%", () => {
+  const result = priceCart([{ price: 5000, qty: 2 }]);
+  expect(result.discountRate).toBe(0.05);
+  expect(result.total).toBe(9500);
+});
