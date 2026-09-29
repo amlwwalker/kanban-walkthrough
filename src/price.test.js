@@ -1,6 +1,20 @@
 import { expect, test } from "vitest";
-import { total } from "./price.js";
+import { priceCart, total } from "./price.js";
 
 test("multiplies price by quantity and sums", () => {
   expect(total([{ price: 500, qty: 2 }, { price: 250, qty: 1 }])).toBe(1250);
+});
+
+test("a subtotal of exactly 5000 prices with rate 0 and total equal to subtotal", () => {
+  const result = priceCart([{ price: 2500, qty: 2 }]);
+  expect(result.subtotal).toBe(5000);
+  expect(result.discountRate).toBe(0);
+  expect(result.total).toBe(5000);
+});
+
+test("a subtotal below 5000 prices with no discount", () => {
+  const result = priceCart([{ price: 400, qty: 3 }]);
+  expect(result.subtotal).toBe(1200);
+  expect(result.discountRate).toBe(0);
+  expect(result.total).toBe(1200);
 });
