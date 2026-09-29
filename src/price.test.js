@@ -53,3 +53,9 @@ test("priceCart returns subtotal, discountRate, discountAmount and total, and th
   });
   expect(result.subtotal - result.discountAmount).toBe(result.total);
 });
+
+test("a fractional discount rounds half up to a whole minor unit: subtotal 5010 gives discountAmount 251 and total 4759", () => {
+  const result = priceCart([{ price: 1670, qty: 3 }]);
+  expect(result.discountAmount).toBe(251);
+  expect(result.total).toBe(4759);
+});
