@@ -30,3 +30,15 @@ test("a subtotal of exactly 10000 gets 5%, not 10%", () => {
   expect(result.discountRate).toBe(0.05);
   expect(result.total).toBe(9500);
 });
+
+test("a subtotal of 10001 gets 10% off the whole subtotal, replacing the 5% tier", () => {
+  const result = priceCart([{ price: 10001, qty: 1 }]);
+  expect(result.discountRate).toBe(0.1);
+  expect(result.total).toBe(9001);
+});
+
+test("a subtotal of 20000 totals 18000, not 17100: tiers replace, they never stack", () => {
+  const result = priceCart([{ price: 10000, qty: 2 }]);
+  expect(result.discountRate).toBe(0.1);
+  expect(result.total).toBe(18000);
+});
