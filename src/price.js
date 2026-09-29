@@ -5,6 +5,6 @@ export function total(items) {
 export function priceCart(items) {
   const subtotal = total(items);
   const discountRate = subtotal > 10000 ? 0.1 : subtotal > 5000 ? 0.05 : 0;
-  const discountAmount = Math.floor(subtotal * discountRate);
+  const discountAmount = Math.round(subtotal * discountRate);
   return { subtotal, discountRate, discountAmount, total: subtotal - discountAmount };
 }
