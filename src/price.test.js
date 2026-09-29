@@ -42,3 +42,14 @@ test("a subtotal of 20000 totals 18000, not 17100: tiers replace, they never sta
   expect(result.discountRate).toBe(0.1);
   expect(result.total).toBe(18000);
 });
+
+test("priceCart returns subtotal, discountRate, discountAmount and total, and they reconcile", () => {
+  const result = priceCart([{ price: 4000, qty: 2 }]);
+  expect(result).toEqual({
+    subtotal: 8000,
+    discountRate: 0.05,
+    discountAmount: 400,
+    total: 7600,
+  });
+  expect(result.subtotal - result.discountAmount).toBe(result.total);
+});
