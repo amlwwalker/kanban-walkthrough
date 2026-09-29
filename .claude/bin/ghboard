@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Shim: the real script ships inside the kanban-tdd plugin. Regenerate with
+# /board-setup if the plugin moves.
+for root in \
+  "${CLAUDE_PLUGIN_ROOT:-}" \
+  "$HOME/.claude/plugins/cache/amlwwalker/kanban-tdd" \
+  "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/../kanban-tdd" \
+  "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/../ktdd"
+do
+  [ -n "$root" ] || continue
+  if [ -x "$root/skills/feature-workflow/scripts/ghboard" ]; then
+    exec "$root/skills/feature-workflow/scripts/ghboard" "$@"
+  fi
+done
+echo "ghboard: cannot find the kanban-tdd plugin. Rerun /board-setup." >&2
+exit 127

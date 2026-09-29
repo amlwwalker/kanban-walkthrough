@@ -1,0 +1,88 @@
+{
+  "$schema": "https://raw.githubusercontent.com/amlwwalker/kanban-tdd/main/skills/board-setup/references/workflow.config.schema.json",
+  "project": {
+    "owner": "amlwwalker",
+    "ownerType": "user",
+    "number": 8,
+    "url": "https://github.com/users/amlwwalker/projects/8",
+    "statusField": "Status",
+    "columns": {
+      "backlog": "Backlog",
+      "ready": "Ready",
+      "inProgress": "In progress",
+      "pushedToDev": "Pushed to Dev",
+      "pushedToStaging": "Pushed to Staging",
+      "readyForProd": "Ready to Push to Production",
+      "done": "Done"
+    }
+  },
+  "branches": {
+    "production": "main",
+    "integration": "dev",
+    "featurePrefix": "feature/"
+  },
+  "tests": {
+    "unit": {
+      "dir": ".",
+      "command": "npm test",
+      "glob": "src/**/*.test.js",
+      "language": "vitest"
+    }
+  },
+  "capabilities": {
+    "design-interview": { "provider": "superpowers:brainstorming" },
+    "tdd-discipline": { "provider": "superpowers:test-driven-development" },
+    "ticket-slicing": { "provider": "auto" },
+    "code-review": { "provider": "code-review" }
+  },
+  "labels": { "verificationFailed": "verification-failed" },
+  "environments": {
+    "dev": { "url": null },
+    "staging": { "url": null },
+    "production": { "url": null }
+  },
+  "taxonomy": {
+    "typeLabels": {
+      "bug": "type:bug",
+      "feature": "type:feature"
+    },
+    "serviceLabels": {
+      "prefix": "svc:",
+      "map": { "kanban-walkthrough": "pricing" }
+    },
+    "areaLabels": {
+      "prefix": "area:",
+      "values": ["checkout"]
+    },
+    "titlePrefix": true
+  },
+  "priority": {
+    "field": "Priority",
+    "default": "P2",
+    "levels": {
+      "P0": "Production down, data loss, a security hole, or revenue blocked. Drop everything.",
+      "P1": "A core flow is broken or badly degraded and there is no acceptable workaround.",
+      "P2": "Normal planned work. The default, and where most tickets should sit.",
+      "P3": "Worth doing when nothing above it is waiting."
+    },
+    "requireReasoning": true
+  },
+  "testers": [
+    { "name": "Alex Walker", "github": "amlwwalker" }
+  ],
+  "logging": {
+    "sink": null,
+    "callPattern": "console.log('[Pricing]', message, meta)",
+    "levels": {
+      "INFO": "Something happened that someone may later ask about.",
+      "WARN": "Recovered, but a human should know."
+    },
+    "logByDefault": ["api-calls", "errors"],
+    "neverLog": ["card details", "customer names"],
+    "sanitisation": "Nothing is sanitised automatically. Every call site must keep card details and customer names out of the log itself."
+  },
+  "style": {
+    "english": "british",
+    "emDashes": "forbidden"
+  }
+}
