@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
 import { priceCart, total } from "./price.js";
 
 test("multiplies price by quantity and sums", () => {
@@ -58,4 +58,23 @@ test("a fractional discount rounds half up to a whole minor unit: subtotal 5010 
   const result = priceCart([{ price: 1670, qty: 3 }]);
   expect(result.discountAmount).toBe(251);
   expect(result.total).toBe(4759);
+});
+
+test("the discount line is logged only when a tier applies", () => {
+  const spy = vi.spyOn(console, "log").mockImplementation(() => {});
+  try {
+    priceCart([{ price: 6000, qty: 1 }]);
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith("[Pricing]", "discount applied", {
+      subtotal: 6000,
+      rate: 0.05,
+      total: 5700,
+    });
+
+    spy.mockClear();
+    priceCart([{ price: 1000, qty: 1 }]);
+    expect(spy).not.toHaveBeenCalled();
+  } finally {
+    spy.mockRestore();
+  }
 });
